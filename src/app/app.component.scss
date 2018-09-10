@@ -1,0 +1,13 @@
+/**
+*Designe du composant appComponent
+**/
+table{
+    tbody{
+        background-color: lightblue;
+        td{
+            &.strikeOut{
+                text-decoration: line-through;
+            }
+        }
+    }
+}
