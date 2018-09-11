@@ -1,42 +1,45 @@
-
-
 <div class="mesTodos">
-    <table  class="table table-hover">
-      <thead>
-        <tr>
-          <th ><input type="checkbox" (click)=checkUncheckAll() [checked]="checkedStatus"></th>
-          <th >A faire ...</th>
-          <th >Début</th>
-          <th >fin</th>
-          <th> </th>
-          <th> </th>
-        </tr>
-      </thead>
+  <mat-table #todos [dataSource]="dataSource" matSort>
 
-      <tbody>
-        <tr *ngFor="let todo of todos; let i = index;">
-          <td id="check">
-            <input type="checkbox"(click)="toggle(i)"[checked]=todo.isChecked>
-          </td>
-          <td id="aFaire" [ngClass]="{strikeOut : todo.isChecked}">{{ todo.title }}</td>
-          <td id="debut" [ngClass]="{strikeOut : todo.isChecked}">{{ todo.begin | date: 'dd-MM-yyyy' }}</td>
-          <td id="fin" [ngClass]="{strikeOut : todo.isChecked}">{{ todo.end | date: 'dd-MM-yyyy'  }}</td>
-          <td>
+    <!-- Titre-->
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>A faire...</mat-header-cell>
+      <mat-cell *matCellDef="let todo"> {{ todo.title }} </mat-cell>
+    </ng-container>
 
-          </td>
-          <td>
-            <button  class="fa fa-check" type="button" (click)= "delete(i)" >
-              
+    <!-- Date de début-->
+    <ng-container matColumnDef="begin">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Du...</mat-header-cell>
+      <mat-cell *matCellDef="let todo"> {{ todo.begin | date: 'dd-MM-yyyy }} </mat-cell>
+    </ng-container>
+
+    <!-- Date de fin -->
+    <ng-container matColumnDef="end">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Au...</mat-header-cell>
+      <mat-cell *matCellDef="let todo"> {{ todo.end | date: 'dd-MM-yyyy }} </mat-cell>
+    </ng-container>
+
+    <!-- Modification d'un todo-->
+    <ng-container matColumnDef="update">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let todo">
+        <button mat-mini-fab color="accent" (click)="update(todo)">
+          <mat-icon aria-label="Modifier le todo">create</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+       <!-- Suppression d'un todo-->
+       <ng-container matColumnDef="delete">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let todo">
+            <button mat-mini-fab color="warn" (click)="delete(todo)">
+              <mat-icon aria-label="Supprimer le todo">create</mat-icon>
             </button>
-            <button class="fa fa-eraser" type="button" (click)="update(todo)">  </button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button id ="supp" type="button"(click)="deleteChecked()">
-              Supprimer
-            </button>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef=" let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

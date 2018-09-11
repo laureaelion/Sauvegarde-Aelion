@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TodoService } from '../../shared/services/todo.service';
 import { TodoInterface } from '../../shared/interfaces/todo-interface';
+//Importation des composant matérial
+import {MatTableDataSource, MatSort} from '@angular/material';
 
 @Component({
   selector: 'view-todos',
@@ -9,6 +11,7 @@ import { TodoInterface } from '../../shared/interfaces/todo-interface';
   styleUrls: ['./view-todos.component.scss']
 })
 export class ViewTodosComponent implements OnInit {
+  @ViewChild(MatSort) sort: MatSort;
   /**
    * Abonnement à un todo qui vient de l'espace (meuh non ...., de todoService)
    */
@@ -19,6 +22,22 @@ export class ViewTodosComponent implements OnInit {
    * gère le status 
    */
   public checkedStatus: boolean = false;
+
+  /**
+   * Source des données pour le tableau Material
+   */
+  public dataSource = new MatTableDataSource<TodoInterface>();
+
+  /**
+   * Colonnes utilisées dans mat-table
+   */
+  public displayedColumns = [
+    'title',
+    'begin',
+    'end',
+    'update',
+    'delete'
+  ];
 
   constructor(private todoService: TodoService) {
     this.todos = []; // Définit le tableau des todo à afficher
@@ -33,6 +52,7 @@ export class ViewTodosComponent implements OnInit {
       }else{
         this.todos[index] = todo;
       }
+      this.dataSource.data = this.todos;
     });
 
   }
@@ -43,16 +63,23 @@ export class ViewTodosComponent implements OnInit {
     //Récupère les todos existants dans la base
     this.todoService.getTodos().subscribe((todos) => {
       this.todos = todos;
-      console.log('Il y a ' + this.todos.length + 'todos à afficher')
+      console.log('Il y a ' + this.todos.length + 'todos à afficher');
+      // On défini à ce moment la la source de donées
+      this.dataSource.data = this.todos;
+      this.dataSource.sort = this.sort;
+
+
     });
   }
 
   /**
    * supprime un todo de la liste
    */
-  public delete(index: number): void {
+  public delete(todo:TodoInterface): void {
+    const index = this.todos.indexOf(todo);
     const _todo = this.todos[index];// récupère le todo
     this.todos.splice(index, 1); // dépile l'élément du tableau )
+    this.dataSource.data = this.todos;
     this.todoService.deleteTodo(_todo); // appel du service 
   }
 
