@@ -7,6 +7,7 @@ import { TodoFormComponent } from './components/todo-form/todo-form.component';
 import { ViewTodosComponent } from './components/view-todos/view-todos.component';
 
 import { TodoService} from './shared/services/todo.service';
+import { UiModule } from './modules/ui/ui.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +17,8 @@ import { TodoService} from './shared/services/todo.service';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    UiModule
   ],
   providers: [
     TodoService

@@ -89,7 +89,7 @@ export class AppComponent {
    */
   public toggle(index: number): void {
     this.todos[index].isChecked = !this.todos[index].isChecked
-    this.checkedStatus= this._allChecked();
+    this.checkedStatus = this._allChecked();
 
   }
 /**

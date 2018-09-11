@@ -4,22 +4,26 @@ div.myTodo {
     left: 50%;
     border: ridge black 4px ;
     color: rgb(24, 103, 207);
-    width:300px;
-    margin-left: -150px;
+    width:400px;
+    margin-left: -200px;
     margin-top: 50px;
     margin-bottom: 35px;
-    height:220px;
+    height:280px;
+    min-height: 280px;
+    height: auto!important;
     border-radius: 15px;
+    text-align: center;
  
 }
 input{
     margin-top: 20px; 
-    margin-left: 5px; 
+    margin-left: 5px;
+    width: 330px; 
 }
 
 button{
     margin-top: 20px;
-    margin-left: 5px;
+    margin-left: 31px;
 }
 
 

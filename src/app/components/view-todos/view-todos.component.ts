@@ -15,13 +15,24 @@ export class ViewTodosComponent implements OnInit {
   private todoSubscription: Subscription;
 
   public todos: TodoInterface[];
+  /**
+   * gère le status 
+   */
+  public checkedStatus: boolean = false;
 
   constructor(private todoService: TodoService) {
     this.todos = []; // Définit le tableau des todo à afficher
 
     this.todoSubscription = this.todoService.getTodo().subscribe((todo) => {
-      console.log('observable todo' + JSON.stringify(todo))
-      this.todos.push(todo);
+      console.log('observable todo' + JSON.stringify(todo));
+      //Ajoute le todo à la liste des todo sauf si il existe deja 
+      //Attention s'il existe je doit remplacer par les nouvelles valeurs
+      const index = this.todos.findIndex((obj) => obj.id == todo.id);
+      if (index ===-1 && todo.hasOwnProperty('id')) {
+        this.todos.push(todo);
+      }else{
+        this.todos[index] = todo;
+      }
     });
 
   }
@@ -34,6 +45,92 @@ export class ViewTodosComponent implements OnInit {
       this.todos = todos;
       console.log('Il y a ' + this.todos.length + 'todos à afficher')
     });
+  }
+
+  /**
+   * supprime un todo de la liste
+   */
+  public delete(index: number): void {
+    const _todo = this.todos[index];// récupère le todo
+    this.todos.splice(index, 1); // dépile l'élément du tableau )
+    this.todoService.deleteTodo(_todo); // appel du service 
+  }
+
+  public checkUncheckAll() {
+    this.checkedStatus = !this.checkedStatus;
+    //appel la methode prive check
+    this._check();
+  }
+  /**
+    * Détermine si oui ou non une boite est cochée
+    */
+  public noneChecked(): Boolean {
+    let status: Boolean = true;
+    for (const todo of this.todos) {
+      if (todo.isChecked) {
+        status = false;
+      }
+    }
+    return status;
+  }
+
+  /**
+   * Bascule l'état de isChecked d'un todo
+   * @param index Indice de l'élément dans le tableau 
+   */
+  public toggle(index: number): void {
+    this.todos[index].isChecked = !this.todos[index].isChecked
+    this.checkedStatus = this._allChecked();
+
+  }
+  private _allChecked(): boolean {
+    let allChecked: boolean = true;
+
+    for (const todo of this.todos) {
+      if (todo.isChecked) {
+        allChecked = false;
+      }
+    }
+    return allChecked;
+  }
+  /**
+ * Change l'état de tous les todos
+ */
+  private _check(): void {
+    for (let index = 0; index < this.todos.length; index++)
+      this.todos[index].isChecked = this.checkedStatus;
+  }
+  /**
+     * Determine l'état d'un todo checked or not 
+     * @param TodoInterface todo le todo à tester
+     */
+  public isChecked(todo: TodoInterface): Boolean {
+    return todo.isChecked;
+  }
+
+  /**
+  * Supprimer les Todos cochés
+   */
+  public deleteChecked() {
+    const _todos: TodoInterface[] = [];
+
+    for (const todo of this.todos) {
+      if (!todo.isChecked) {
+        _todos.push(todo);
+      } else {
+        this.todoService.deleteTodo(todo)
+      }
+    }
+    this.todos = _todos;
+  }
+
+  /**
+   * Transmets le todo à modifier au formulaire
+   * @param todo : TodoInterface todo à modifier
+   */
+  public update(todo: TodoInterface): void {
+    console.log('modification du todo : ' + todo.id);
+    this.todoService.sendTodo(todo);
   }
 
 

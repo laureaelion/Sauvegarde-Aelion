@@ -1,32 +1,39 @@
 
 
 <div class="mesTodos">
-    <table>
+    <table  class="table table-hover">
       <thead>
         <tr>
-          <th><input type="checkbox" (click)=checkUncheckAll() [checked]="checkedStatus">tout sélectionner</th>
-          <th>Titre</th>
-
+          <th ><input type="checkbox" (click)=checkUncheckAll() [checked]="checkedStatus"></th>
+          <th >A faire ...</th>
+          <th >Début</th>
+          <th >fin</th>
+          <th> </th>
+          <th> </th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let todo of todos; let i = index;">
+          <td id="check">
+            <input type="checkbox"(click)="toggle(i)"[checked]=todo.isChecked>
+          </td>
+          <td id="aFaire" [ngClass]="{strikeOut : todo.isChecked}">{{ todo.title }}</td>
+          <td id="debut" [ngClass]="{strikeOut : todo.isChecked}">{{ todo.begin | date: 'dd-MM-yyyy' }}</td>
+          <td id="fin" [ngClass]="{strikeOut : todo.isChecked}">{{ todo.end | date: 'dd-MM-yyyy'  }}</td>
           <td>
-            <input type="checkbox">
+
           </td>
           <td>
-              {{ todo.title }}
-          </td>
-          <td>
-            <button type="button">
-              X
+            <button  class="fa fa-check" type="button" (click)= "delete(i)" >
+              
             </button>
+            <button class="fa fa-eraser" type="button" (click)="update(todo)">  </button>
           </td>
         </tr>
         <tr>
           <td>
-            <button type="button">
+            <button id ="supp" type="button"(click)="deleteChecked()">
               Supprimer
             </button>
         </tr>
