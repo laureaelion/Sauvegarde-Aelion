@@ -44,10 +44,11 @@ export class ViewTodosComponent implements OnInit {
  /**
   * Colonnes à afficher dans le mat-select
   */
-  public availableColumns: String[] = [
+  public availableColumns: any[] = [
     
-    'begin',
-    'end',
+    {value:'begin',label: 'De...'},
+    {value: 'end', label: 'A...'}
+   
     
   ];
 
@@ -55,9 +56,9 @@ export class ViewTodosComponent implements OnInit {
    * Colonnes sélectionnées par défaut, pour que les boite soient cochées
    */
   public selectedValue: String[] = [
-    
     'begin',
     'end',
+   
     
   ];
 /**
@@ -191,7 +192,13 @@ export class ViewTodosComponent implements OnInit {
     console.log('modification du todo : ' + todo.id);
     this.todoService.sendTodo(todo);
   }
-
+/**
+ * retourne le label associé aux éléments 
+ * @param index Indice à récupérer dans le tableau 
+ */
+  public getLabel(index:number): String{
+    return this.availableColumns[index].label;
+  }
   /**
    * Detecte un changement de sélection de colonne 
    * @param event Evénement propagé

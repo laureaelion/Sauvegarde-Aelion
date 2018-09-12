@@ -9,7 +9,7 @@
     <mat-form-field>
       <mat-select placeholder="Afficher" [(ngModel)]="selectedValue" [formControl]="columns" [(value)]="selectedOption"
         (selectionChange)="changeView($event)" multiple>
-        <mat-option *ngFor="let column of availableColumns" [value]="column">{{column}}</mat-option>
+        <mat-option *ngFor="let column of availableColumns" [value]="column.value">{{column.label}}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -30,13 +30,13 @@
 
     <!-- Date de début-->
     <ng-container matColumnDef="begin">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Du...</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{getLabel(0)}}</mat-header-cell>
       <mat-cell *matCellDef="let todo"> {{ todo.begin | date: 'dd-MM-yyyy' }} </mat-cell>
     </ng-container>
 
     <!-- Date de fin -->
     <ng-container matColumnDef="end">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Au...</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{getLabel(1)}}</mat-header-cell>
       <mat-cell *matCellDef="let todo"> {{ todo.end | date: 'dd-MM-yyyy' }} </mat-cell>
     </ng-container>
 
