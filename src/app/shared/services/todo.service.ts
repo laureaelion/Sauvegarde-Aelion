@@ -72,7 +72,7 @@ export class TodoService {
    * Methode qui diffuse le sujet vers les donées 
    * @param todo TodoInterface un todo qui passe par là
    */
-  public sendTodo(todo: TodoInterface) {
+  public  sendTodo(todo: TodoInterface) {
     this.todoSubject.next(todo);
   }
 

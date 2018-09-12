@@ -5,6 +5,8 @@ import { TodoService } from '../../shared/services/todo.service';
 import { TodoInterface } from '../../shared/interfaces/todo-interface';
 //Importation des composant matérial
 import {MatTableDataSource, MatSort, MatSelect, MatOption} from '@angular/material';
+import { TodoHelper } from './../../shared/helpers/todo-helper';
+import { MatColumns} from './../../shared/interfaces/mat-columns';
 
 @Component({
   selector: 'view-todos',
@@ -33,47 +35,31 @@ export class ViewTodosComponent implements OnInit {
    * Colonnes utilisées dans mat-table
    */
   public columns =new FormControl(); //binding vers la liste
-  
-  public displayedColumns : String []= [
-    'title',
-    'begin',
-    'end',
-    'update',
-    'delete'
-  ];
- /**
-  * Colonnes à afficher dans le mat-select
-  */
-  public availableColumns: any[] = [
-    
-    {value:'begin',label: 'De...'},
-    {value: 'end', label: 'A...'}
-   
-    
-  ];
+ 
 
-  /**
-   * Colonnes sélectionnées par défaut, pour que les boite soient cochées
-   */
-  public selectedValue: String[] = [
-    'begin',
-    'end',
-   
-    
-  ];
+ 
 /**
  * Options réellement sélectionnées par l'utilisateur 
  */
   public selectedOption: any;
 
   /**
+   * Instance de la Classe TodoHelper
+   */
+  public helper: TodoHelper;
+
+ public selectedValue : String []; 
+
+  /**
    * Tableau de todo à afficher 
    */
 
-  
-
   constructor(private todoService: TodoService) {
     this.todos = []; // Définit le tableau des todo à afficher
+
+    //Instancie le helper
+    this.helper = new TodoHelper();
+    this.selectedValue = this.helper.optionalColumnsToArray();
 
     this.todoSubscription = this.todoService.getTodo().subscribe((todo) => {
       console.log('observable todo' + JSON.stringify(todo));
@@ -192,42 +178,14 @@ export class ViewTodosComponent implements OnInit {
     console.log('modification du todo : ' + todo.id);
     this.todoService.sendTodo(todo);
   }
-/**
- * retourne le label associé aux éléments 
- * @param index Indice à récupérer dans le tableau 
- */
-  public getLabel(index:number): String{
-    return this.availableColumns[index].label;
-  }
+
   /**
    * Detecte un changement de sélection de colonne 
    * @param event Evénement propagé
    */
   public changeView(event:any): void{
-  const toShow: String[] = this.selectedOption;
-
-  /**
-   * Définit le Tableau final pour l'affichage des colonnes
-   */
-  const toDisplay: String[]= [];
-
-  toDisplay.push('title'); // Toujours afficheé, donc ... on le push
-  if(toShow.indexOf('begin') !== -1){
-    //begin est coché on le push
-    toDisplay.push('begin');
-  }
-  if(toShow.indexOf('end') !== -1){
-    //end est coché on le push
-    toDisplay.push('end');
-  }
-// on doit toujours avoir les boutons
-  toDisplay.push('update');
-  toDisplay.push('update');
-
-  /**
-   * On remplace le tableau des colonnes à afficher dans le tableau 
-   */
-  this.displayedColumns=toDisplay;
+    this.helper.setDisplayedColumns(this.selectedOption);
+ 
   
   }
 
