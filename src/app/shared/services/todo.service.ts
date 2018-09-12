@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http'
 import { Observable, Subject } from 'rxjs';
 import { TodoInterface } from './../interfaces/todo-interface';
 import { Constants } from './../constants/constants';
-import { constants } from 'os';
 
 @Injectable({
   providedIn: 'root'

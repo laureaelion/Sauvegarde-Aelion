@@ -8,7 +8,13 @@ import { BrowserAnimationsModule } from'@angular/platform-browser/animations';
   MatPaginatorModule,
   MatSortModule,
   MatIconModule,
-  MatButtonModule
+  MatButtonModule,
+  MatToolbarModule,
+ 
+  MatFormFieldModule,
+  MatSelectModule,
+  MatOptionModule
+
  } from '@angular/material';
  
 @NgModule({
@@ -19,7 +25,12 @@ import { BrowserAnimationsModule } from'@angular/platform-browser/animations';
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule
+    
   ],
   declarations: [],
   exports:[
@@ -28,7 +39,11 @@ import { BrowserAnimationsModule } from'@angular/platform-browser/animations';
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule
   ]
 })
 export class MaterialModule { }
