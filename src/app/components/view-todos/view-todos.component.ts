@@ -41,7 +41,7 @@ export class ViewTodosComponent implements OnInit {
 /**
  * Options réellement sélectionnées par l'utilisateur 
  */
-  public selectedOption: any;
+  public selectedOption: String[];
 
   /**
    * Instance de la Classe TodoHelper
