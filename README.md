@@ -25,3 +25,18 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+# Sauvegarde-Aelion
+Tout est dans le noms
+
+To reinstall :
+
+pour angular 
+
+$: cd [tonNomDev]
+$: git clone https://github.com/[tonCompte]/[ton projet]
+$: cd [tonProjet]
+$: npm i @angular-cli@latest -g (si angular-cli n'est pas déja installé)
+$: npm i 
+$: ng serve
+
+Puis allé sur http://localhost:4200
